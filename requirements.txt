@@ -1,2 +1,5 @@
-nose
-sphinx
+pylint
+pytest
+click
+black
+pytest-cov
