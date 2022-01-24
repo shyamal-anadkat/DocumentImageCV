@@ -3,6 +3,13 @@ AIPI 540 Computer Vision
 
 Christopher Oblack, Shyamal Anadkat, Yudong Liu
 
+**Problem definition:** Detect the language from a text based image/picture of a dense document. 
+
+Note that OCR is a separate problem and we envision this  model to be a “preprocessing” step for language detection 
+from an image. The idea is to build a classification CV model that would output the confidence levels of the detected
+language(s). For example, I can click a picture of a piece of text on my iPhone, and the model would output if it’s in Gujarati or Telugu. 
+
+
 ---------------
 
 
