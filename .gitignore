@@ -92,3 +92,5 @@ ENV/
 # IntelliJ files
 .idea/
 data/raw/.DS_Store
+
+data/raw/google-images-download/
