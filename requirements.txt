@@ -1,6 +1,8 @@
-pylint
-pytest
-click
-black
-pytest-cov
-difPy
+difPy==2.0
+matplotlib==3.3.4
+numpy==1.19.5
+pandas==1.4.0
+scikit_learn==1.0.2
+torch==1.10.2
+torchsummary==1.5.1
+torchvision==0.11.3
