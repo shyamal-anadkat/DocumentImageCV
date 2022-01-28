@@ -96,3 +96,6 @@ for idx in np.arange(batch_size):
     image = np.clip(image, 0, 1)
     ax.imshow(image)
     ax.set_title("{}".format(class_names[labels[idx]]))
+
+plt.show()
+print('All done!')
