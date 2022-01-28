@@ -1,6 +1,6 @@
 difPy==2.0
 matplotlib==3.3.4
-numpy==1.19.5
+numpy==1.21.0
 pandas==1.4.0
 scikit_learn==1.0.2
 torch==1.10.2
