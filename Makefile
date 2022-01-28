@@ -8,4 +8,5 @@ format:
 lint:
 	pylint --disable=R,C *.py
 
+clean: format lint
 all: install format lint
