@@ -12,7 +12,7 @@ from torchsummary import summary
 
 
 # Train the model
-def train_model(model, criterion, optimizer, dataloaders, scheduler, device, dataset_sizes, num_epochs=25):
+def __train(model, criterion, optimizer, dataloaders, scheduler, device, dataset_sizes, num_epochs=25):
     model = model.to(device)  # Send model to GPU if available
     since = time.time()
 
@@ -88,7 +88,7 @@ def train_model(model, criterion, optimizer, dataloaders, scheduler, device, dat
 
 
 # Display a batch of predictions
-def visualize_results(model, device, val_loader, class_names):
+def __visualize_results(model, device, val_loader, class_names):
     model = model.to(device)  # Send model to GPU if available
     with torch.no_grad():
         model.eval()
@@ -116,7 +116,7 @@ def visualize_results(model, device, val_loader, class_names):
     return
 
 
-def test_model(model, test_loader, device):
+def __test_model(model, test_loader, device):
     model = model.to(device)
     # Turn autograd off
     with torch.no_grad():
@@ -196,7 +196,7 @@ def train_model(images, dataloaders, batch_size, class_names, dataset_sizes, num
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Train the model
-    net = train_model(net, criterion, optimizer, dataloaders, lr_scheduler, device, dataset_sizes, num_epochs)
+    net = train(net, criterion, optimizer, dataloaders, lr_scheduler, device, dataset_sizes, num_epochs)
 
     visualize_results(net, device, val_loader, class_names)
 
