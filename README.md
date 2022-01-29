@@ -1,3 +1,5 @@
+[![build](https://github.com/shyamal-anadkat/AIPI540_ComputerVision/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/shyamal-anadkat/AIPI540_ComputerVision/actions/workflows/main.yml)
+
 AIPI 540 Computer Vision
 ========================
 
