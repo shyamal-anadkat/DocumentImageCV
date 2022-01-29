@@ -2,6 +2,7 @@ import os
 
 import matplotlib.pyplot as plt
 import numpy as np
+
 # this package make graping labeled image folders from a dir
 # and splitting them into train, val, and test
 import splitfolders
@@ -19,8 +20,13 @@ def transform_data():
 
     # Split with a ratio.
     # To only split into training and validation set, set a tuple to `ratio`, i.e, `(.8, .2)`.
-    splitfolders.ratio("../data/raw/data_to_transform", output="../data/split_data", seed=101, ratio=(.75, .15, .1),
-                       group_prefix=None)  # default values
+    splitfolders.ratio(
+        "../data/raw/data_to_transform",
+        output="../data/split_data",
+        seed=101,
+        ratio=(0.75, 0.15, 0.1),
+        group_prefix=None,
+    )  # default values
 
     # Set up transformations for training and validation (test) data
     # For training data we will center crop to get to 224 * 224, and normalization
@@ -28,40 +34,48 @@ def transform_data():
     # For test set we will do only center cropping to get to 224 * 224 and normalization
 
     data_transforms = {
-        'train': transforms.Compose([
-            transforms.CenterCrop(244),
-            transforms.Grayscale(3),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-        'val': transforms.Compose([
-            transforms.CenterCrop(224),
-            transforms.Grayscale(3),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
+        "train": transforms.Compose(
+            [
+                transforms.CenterCrop(244),
+                transforms.Grayscale(3),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ]
+        ),
+        "val": transforms.Compose(
+            [
+                transforms.CenterCrop(224),
+                transforms.Grayscale(3),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ]
+        ),
     }
 
     # Create Datasets for training and validation sets
     data_dir = "../data/split_data"
 
-    train_dataset = datasets.ImageFolder(os.path.join(data_dir, 'train'),
-                                         data_transforms['train'])
-    val_dataset = datasets.ImageFolder(os.path.join(data_dir, 'val'),
-                                       data_transforms['val'])
+    train_dataset = datasets.ImageFolder(
+        os.path.join(data_dir, "train"), data_transforms["train"]
+    )
+    val_dataset = datasets.ImageFolder(
+        os.path.join(data_dir, "val"), data_transforms["val"]
+    )
 
     # Create DataLoaders for training and validation sets
     batch_size = 4
-    train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
-                                               shuffle=True, num_workers=2)
-    val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size,
-                                             shuffle=False, num_workers=2)
+    train_loader = torch.utils.data.DataLoader(
+        train_dataset, batch_size=batch_size, shuffle=True, num_workers=2
+    )
+    val_loader = torch.utils.data.DataLoader(
+        val_dataset, batch_size=batch_size, shuffle=False, num_workers=2
+    )
 
     # Set up dict for dataloaders
-    dataloaders = {'train': train_loader, 'val': val_loader}
+    dataloaders = {"train": train_loader, "val": val_loader}
 
     # Store size of training and validation sets
-    dataset_sizes = {'train': len(train_dataset), 'val': len(val_dataset)}
+    dataset_sizes = {"train": len(train_dataset), "val": len(val_dataset)}
     # Get class names associated with labels
     class_names = train_dataset.classes
 
@@ -84,5 +98,5 @@ def transform_data():
         ax.set_title("{}".format(class_names[labels[idx]]))
 
     plt.show()
-    print('All done!')
+    print("All done!")
     return images, dataloaders, batch_size, class_names, dataset_sizes

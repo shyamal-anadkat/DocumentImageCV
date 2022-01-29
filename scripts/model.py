@@ -12,7 +12,16 @@ from torchsummary import summary
 
 
 # Train the model
-def __train(model, criterion, optimizer, dataloaders, scheduler, device, dataset_sizes, num_epochs=25):
+def __train(
+    model,
+    criterion,
+    optimizer,
+    dataloaders,
+    scheduler,
+    device,
+    dataset_sizes,
+    num_epochs=25,
+):
     model = model.to(device)  # Send model to GPU if available
     since = time.time()
 
@@ -20,12 +29,12 @@ def __train(model, criterion, optimizer, dataloaders, scheduler, device, dataset
     best_acc = 0.0
 
     for epoch in range(num_epochs):
-        print('Epoch {}/{}'.format(epoch, num_epochs - 1))
-        print('-' * 10)
+        print("Epoch {}/{}".format(epoch, num_epochs - 1))
+        print("-" * 10)
 
         # Each epoch has a training and validation phase
-        for phase in ['train', 'val']:
-            if phase == 'train':
+        for phase in ["train", "val"]:
+            if phase == "train":
                 model.train()  # Set model to training mode
             else:
                 model.eval()  # Set model to evaluate mode
@@ -43,14 +52,14 @@ def __train(model, criterion, optimizer, dataloaders, scheduler, device, dataset
 
                 # Forward pass to get outputs and calculate loss
                 # Track gradient only for training data
-                with torch.set_grad_enabled(phase == 'train'):
+                with torch.set_grad_enabled(phase == "train"):
                     outputs = model(inputs)
                     _, preds = torch.max(outputs, 1)
                     loss = criterion(outputs, labels)
 
                     # Backpropagation to get the gradients with respect to each weight
                     # Only if in train
-                    if phase == 'train':
+                    if phase == "train":
                         loss.backward()
                         # Update the weights
                         optimizer.step()
@@ -61,25 +70,28 @@ def __train(model, criterion, optimizer, dataloaders, scheduler, device, dataset
                 running_corrects += torch.sum(preds == labels.data)
 
             # Step along learning rate scheduler when in train
-            if phase == 'train':
+            if phase == "train":
                 scheduler.step()
 
             # Calculate and display average loss and accuracy for the epoch
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
-            print('{} Loss: {:.4f} Acc: {:.4f}'.format(phase, epoch_loss, epoch_acc))
+            print("{} Loss: {:.4f} Acc: {:.4f}".format(phase, epoch_loss, epoch_acc))
 
             # If model performs better on val set, save weights as the best model
-            if phase == 'val' and epoch_acc > best_acc:
+            if phase == "val" and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
 
         print()
 
     time_elapsed = time.time() - since
-    print('Training complete in {:.0f}m {:.0f}s'.format(
-        time_elapsed // 60, time_elapsed % 60))
-    print('Best val Acc: {:3f}'.format(best_acc))
+    print(
+        "Training complete in {:.0f}m {:.0f}s".format(
+            time_elapsed // 60, time_elapsed % 60
+        )
+    )
+    print("Best val Acc: {:3f}".format(best_acc))
 
     # Load the weights from best model
     model.load_state_dict(best_model_wts)
@@ -111,8 +123,10 @@ def __visualize_results(model, device, val_loader, class_names):
         image = std * image + mean
         image = np.clip(image, 0, 1)
         ax.imshow(image)
-        ax.set_title("{} ({})".format(class_names[preds[idx]], class_names[labels[idx]]),
-                     color=("green" if preds[idx] == labels[idx] else "red"))
+        ax.set_title(
+            "{} ({})".format(class_names[preds[idx]], class_names[labels[idx]]),
+            color=("green" if preds[idx] == labels[idx] else "red"),
+        )
     return
 
 
@@ -157,15 +171,18 @@ def __test_model(model, test_loader, device):
 
     return test_acc, recall_vals
 
-def train_model(images, dataloaders, batch_size, class_names, dataset_sizes, num_epochs=10):
+
+def train_model(
+    images, dataloaders, batch_size, class_names, dataset_sizes, num_epochs=10
+):
     # We will used a pre-trained ResNet18 model, so our architecture has already been defined.
     # The cell below loads the ResNet18 pre-trained model, freezes the model layers so that they are not trained during
     # training (we will only train a final new layer which we will add on), and
     # displays a summary of the model layers and the output shape of the input after passing through each layer.
     # Instantiate pre-trained resnet
 
-    train_loader = dataloaders.get('train')
-    val_loader = dataloaders.get('val')
+    train_loader = dataloaders.get("train")
+    val_loader = dataloaders.get("val")
 
     net = torchvision.models.resnet18(pretrained=True)
     # Shut off autograd for all layers to freeze model so the layer weights are not trained
@@ -196,16 +213,25 @@ def train_model(images, dataloaders, batch_size, class_names, dataset_sizes, num
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Train the model
-    net = train(net, criterion, optimizer, dataloaders, lr_scheduler, device, dataset_sizes, num_epochs)
+    net = __train(
+        net,
+        criterion,
+        optimizer,
+        dataloaders,
+        lr_scheduler,
+        device,
+        dataset_sizes,
+        num_epochs,
+    )
 
-    visualize_results(net, device, val_loader, class_names)
+    __visualize_results(net, device, val_loader, class_names)
 
     # Test the pre-trained model
-    acc, recall_vals = test_model(net, val_loader, device)
-    print('Test set accuracy is {:.3f}'.format(acc))
+    acc, recall_vals = __test_model(net, val_loader, device)
+    print("Test set accuracy is {:.3f}".format(acc))
     for i in range(3):
-        print('For class {}, recall is {}'.format(class_names[i], recall_vals[i]))
+        print("For class {}, recall is {}".format(class_names[i], recall_vals[i]))
 
     plt.show()
-    print('All done!')
+    print("All done!")
     return net
