@@ -1,28 +1,13 @@
 import os
-import urllib.request
-import zipfile
-import copy
-import time
-import numpy as np
-import pandas as pd
-import torch
-from torchvision import datasets, transforms
-import torchvision
-from torch.utils.data import DataLoader, TensorDataset
-import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
-from torchvision.datasets import FashionMNIST
-from torchsummary import summary
-from torchvision.transforms.transforms import Grayscale, ToTensor
 
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
-
+import numpy as np
 # this package make graping labeled image folders from a dir
 # and splitting them into train, val, and test
 import splitfolders
+import torch
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
 
 TORCH_VERSION = ".".join(torch.__version__.split(".")[:2])
 CUDA_VERSION = torch.__version__.split("+")[-1]
