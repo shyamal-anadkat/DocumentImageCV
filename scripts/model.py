@@ -10,38 +10,9 @@ import torch.optim as optim
 import torchvision
 from torchsummary import summary
 
-# We will used a pre-trained ResNet18 model, so our architecture has already been defined.
-# The cell below loads the ResNet18 pre-trained model, freezes the model layers so that they are not trained during
-# training (we will only train a final new layer which we will add on), and
-# displays a summary of the model layers and the output shape of the input after passing through each layer.
-
-# Instantiate pre-trained resnet
-net = torchvision.models.resnet18(pretrained=True)
-# Shut off autograd for all layers to freeze model so the layer weights are not trained
-for param in net.parameters():
-    param.requires_grad = False
-
-# Display a summary of the layers of the model and output shape after each layer
-summary(net, (images.shape[1:]), batch_size=batch_size, device="cpu")
-
-# Get the number of inputs to final Linear layer
-num_ftrs = net.fc.in_features
-# Replace final Linear layer with a new Linear with the same number of inputs but just 2 outputs,
-# since we have 3 classes
-net.fc = nn.Linear(num_ftrs, 3)
-
-# We will use Cross Entropy as the cost/loss function and SGD for the optimizer.
-
-
-# Cross entropy loss combines softmax and nn.NLLLoss() in one single class.
-criterion = nn.CrossEntropyLoss()
-
-# Define optimizer
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-
 
 # Train the model
-def train_model(model, criterion, optimizer, dataloaders, scheduler, device, num_epochs=25):
+def train_model(model, criterion, optimizer, dataloaders, scheduler, device, dataset_sizes, num_epochs=25):
     model = model.to(device)  # Send model to GPU if available
     since = time.time()
 
@@ -116,21 +87,8 @@ def train_model(model, criterion, optimizer, dataloaders, scheduler, device, num
     return model
 
 
-# Learning rate scheduler - decay LR by a factor of 0.1 every 7 epochs
-lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
-
-# Set device
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-# Train the model
-net = train_model(net, criterion, optimizer, dataloaders, lr_scheduler, device, num_epochs=10)
-
-
-# Visualize Results
-
-
 # Display a batch of predictions
-def visualize_results(model, dataloader, device):
+def visualize_results(model, device, val_loader, class_names):
     model = model.to(device)  # Send model to GPU if available
     with torch.no_grad():
         model.eval()
@@ -174,7 +132,7 @@ def test_model(model, test_loader, device):
         for data in test_loader:
             inputs, labels = data[0].to(device), data[1].to(device)
             # Feed inputs through model to get raw scores
-            logits = net.forward(inputs)
+            logits = model.forward(inputs)
             # Convert raw scores to probabilities (not necessary since we just care about discrete probs in this case)
             probs = F.softmax(logits, dim=1)
             # Get discrete predictions using argmax
@@ -199,14 +157,55 @@ def test_model(model, test_loader, device):
 
     return test_acc, recall_vals
 
-visualize_results(net, val_loader, device)
+def train_model(images, dataloaders, batch_size, class_names, dataset_sizes, num_epochs=10):
+    # We will used a pre-trained ResNet18 model, so our architecture has already been defined.
+    # The cell below loads the ResNet18 pre-trained model, freezes the model layers so that they are not trained during
+    # training (we will only train a final new layer which we will add on), and
+    # displays a summary of the model layers and the output shape of the input after passing through each layer.
+    # Instantiate pre-trained resnet
 
-# Test the pre-trained model
-acc,recall_vals = test_model(net,val_loader,device)
-print('Test set accuracy is {:.3f}'.format(acc))
-for i in range(3):
-    print('For class {}, recall is {}'.format(class_names[i],recall_vals[i]))
+    train_loader = dataloaders.get('train')
+    val_loader = dataloaders.get('val')
 
+    net = torchvision.models.resnet18(pretrained=True)
+    # Shut off autograd for all layers to freeze model so the layer weights are not trained
+    for param in net.parameters():
+        param.requires_grad = False
 
-plt.show()
-print('All done!')
+    # Display a summary of the layers of the model and output shape after each layer
+    summary(net, (images.shape[1:]), batch_size=batch_size, device="cpu")
+
+    # Get the number of inputs to final Linear layer
+    num_ftrs = net.fc.in_features
+    # Replace final Linear layer with a new Linear with the same number of inputs but just 2 outputs,
+    # since we have 3 classes
+    net.fc = nn.Linear(num_ftrs, 3)
+
+    # We will use Cross Entropy as the cost/loss function and SGD for the optimizer.
+
+    # Cross entropy loss combines softmax and nn.NLLLoss() in one single class.
+    criterion = nn.CrossEntropyLoss()
+
+    # Define optimizer
+    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+
+    # Learning rate scheduler - decay LR by a factor of 0.1 every 7 epochs
+    lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
+
+    # Set device
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
+    # Train the model
+    net = train_model(net, criterion, optimizer, dataloaders, lr_scheduler, device, dataset_sizes, num_epochs)
+
+    visualize_results(net, device, val_loader, class_names)
+
+    # Test the pre-trained model
+    acc, recall_vals = test_model(net, val_loader, device)
+    print('Test set accuracy is {:.3f}'.format(acc))
+    for i in range(3):
+        print('For class {}, recall is {}'.format(class_names[i], recall_vals[i]))
+
+    plt.show()
+    print('All done!')
+    return net
