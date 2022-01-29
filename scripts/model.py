@@ -181,7 +181,7 @@ def train_model(
     # displays a summary of the model layers and the output shape of the input after passing through each layer.
     # Instantiate pre-trained resnet
 
-    train_loader = dataloaders.get("train")
+    # train_loader = dataloaders.get("train")
     val_loader = dataloaders.get("val")
 
     net = torchvision.models.resnet18(pretrained=True)

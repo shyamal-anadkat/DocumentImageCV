@@ -7,7 +7,7 @@ import numpy as np
 # and splitting them into train, val, and test
 import splitfolders
 import torch
-from torch.utils.data import DataLoader
+import torch.utils.data
 from torchvision import datasets, transforms
 
 
@@ -79,7 +79,7 @@ def transform_data():
     # Get class names associated with labels
     class_names = train_dataset.classes
 
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Visualize a batch of images
     images, labels = iter(train_loader).next()
