@@ -46,13 +46,13 @@ data_transforms = {
         transforms.CenterCrop(244),
         transforms.Grayscale(1),  # switched from 3 to 1
         transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        transforms.Normalize(mean=[0.5],std=[0.5])
     ]),
     'val': transforms.Compose([
         transforms.CenterCrop(224),
         transforms.Grayscale(1),  # switched from 3 to 1
         transforms.ToTensor(),
-        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        transforms.Normalize(mean=[0.5], std=[0.5])
     ]),
 }
 
@@ -65,7 +65,7 @@ val_dataset = datasets.ImageFolder(os.path.join(data_dir, 'val'),
                                    data_transforms['val'])
 
 # Create DataLoaders for training and validation sets
-batch_size = 4
+batch_size = 16
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
                                            shuffle=True, num_workers=2)
 val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=batch_size,
