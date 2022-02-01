@@ -1,4 +1,4 @@
-from sklearn.metrics import classification_report,accuracy_score,confusion_matrix,plot_confusion_matrix
+from sklearn.metrics import accuracy_score,plot_confusion_matrix
 import pickle
 from thundersvm import SVC
 from make_dataset_svm import transform_data
