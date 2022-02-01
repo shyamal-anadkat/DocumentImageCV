@@ -1,7 +1,7 @@
 from sklearn.metrics import classification_report,accuracy_score,confusion_matrix,plot_confusion_matrix
 import pickle
 from thundersvm import SVC
-from make_dataset import transform_data
+from make_dataset_svm import transform_data
 train_dataset_array, train_dataset_label, val_dataset_array, val_dataset_label, images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
 x_train = train_dataset_array
 y_train = train_dataset_label
