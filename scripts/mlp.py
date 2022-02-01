@@ -67,7 +67,7 @@ def train_model(model, criterion, optimizer, trainloader, num_iter, device):
 
 
 images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
-#criterion = nn.CrossEntropyLoss()
+criterion = nn.CrossEntropyLoss()
 # Define the method of updating the weights each iteration
 optimizer = optim.SGD(net.parameters(), lr=0.01)
 # Number of iterations (epochs) to train
