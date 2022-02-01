@@ -12,3 +12,4 @@ torch
 torchsummary
 torchvision
 split-folders
+thundersvm
