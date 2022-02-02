@@ -37,11 +37,11 @@ def train_model(model, criterion, optimizer, trainloader, num_iter, device):
 
     cost = []
 
-    for epoch in range(num_iter):
-
+    for _ in range(num_iter):
+        
         running_loss = 0.0
 
-        for i, data in enumerate(trainloader):
+        for _, data in enumerate(trainloader):
             # Get the inputs X and labels y for the minibatch
             inputs, labels = data[0].to(device), data[1].to(device)
 
@@ -132,4 +132,4 @@ for j in range(3):
     print('For class {}, recall is {}'.format(classes[j],recall_vals1[j]))
 
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
