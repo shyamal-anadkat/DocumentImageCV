@@ -87,7 +87,7 @@ def transform_data():
     # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Visualize a batch of images
-    images, _ = iter(train_loader).next()
+    images, labels = iter(train_loader).next()
     train_dataset_array = next(iter(train_loader))[0].numpy()
     train_dataset_label = next(iter(train_loader))[1].numpy()
     val_dataset_array = next(iter(val_loader))[0].numpy()
