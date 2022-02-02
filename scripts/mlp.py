@@ -67,17 +67,17 @@ def train_model(model, criterion, optimizer, trainloader, num_iter, device):
 
 
 images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
-criterion = nn.CrossEntropyLoss()
+criterion1 = nn.CrossEntropyLoss()
 # Define the method of updating the weights each iteration
-optimizer = optim.SGD(net.parameters(), lr=0.01)
+optimizer1 = optim.SGD(net.parameters(), lr=0.01)
 # Number of iterations (epochs) to train
 n_iter = 135
 # Set device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-trainloader = dataloaders.get('train')
+device1 = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+trainloader1 = dataloaders.get('train')
 valloader = dataloaders.get('val')
 # Train model
-cost_path = train_model(net,criterion,optimizer,trainloader,n_iter,device)
+cost_path = train_model(net,criterion1,optimizer1,trainloader1,n_iter,device1)
 
 # Plot the cost over training
 plt.plot(cost_path)
