@@ -87,7 +87,7 @@ def transform_data():
     # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # Visualize a batch of images
-    images, labels = iter(train_loader).next()
+    images, _ = iter(train_loader).next()
     train_dataset_array = next(iter(train_loader))[0].numpy()
     train_dataset_label = next(iter(train_loader))[1].numpy()
     val_dataset_array = next(iter(val_loader))[0].numpy()
@@ -96,7 +96,7 @@ def transform_data():
     print(train_dataset_label.shape)
     print(images.shape)
     images = images.numpy()
-    '''fig = plt.figure(figsize=(10, 6))
+    fig = plt.figure(figsize=(10, 6))
     for idx in np.arange(batch_size):
         ax = fig.add_subplot(2, batch_size // 2, idx + 1, xticks=[], yticks=[])
         image = images[idx]
@@ -108,6 +108,6 @@ def transform_data():
         ax.imshow(image)
         ax.set_title("{}".format(class_names[labels[idx]]))
 
-    plt.show()'''
+    plt.show()
     print("All done!")
     return train_dataset_array, train_dataset_label, val_dataset_array, val_dataset_label, images, dataloaders, batch_size, class_names, dataset_sizes
