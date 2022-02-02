@@ -1,16 +1,15 @@
 
 import numpy as np
-import pandas as pd
+
 import torch
-from torchvision import datasets, transforms
-import torchvision
-from torch.utils.data import DataLoader, TensorDataset
+
+
+
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from make_dataset import transform_data
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+
 import matplotlib.pyplot as plt
 
 
@@ -75,7 +74,7 @@ n_iter = 135
 # Set device
 device1 = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 trainloader1 = dataloaders.get('train')
-valloader = dataloaders.get('val')
+valloader1 = dataloaders.get('val')
 # Train model
 cost_path = train_model(net,criterion1,optimizer1,trainloader1,n_iter,device1)
 
@@ -127,12 +126,10 @@ def test_model(model,test_loader,device):
     return test_acc,recall_vals
 
 classes = ['English', 'Russian', 'Telugu']
-acc,recall_vals = test_model(net,valloader,device)
+acc,recall_vals1 = test_model(net,valloader1,device1)
 print('Test set accuracy is {:.3f}'.format(acc))
-for i in range(3):
-    print('For class {}, recall is {}'.format(classes[i],recall_vals[i]))
+for j in range(3):
+    print('For class {}, recall is {}'.format(classes[j],recall_vals1[j]))
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-acc = test_model(net,valloader,device)
-print('Test set accuracy is {:.3f}'.format(acc))
