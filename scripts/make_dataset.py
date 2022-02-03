@@ -124,7 +124,7 @@ def transform_data():
     # Store size of training and validation sets
     dataset_sizes = {"train": len(train_dataset), "val": len(val_dataset)}
     # Get class names associated with labels
-    class_names = train_dataset.classes
+    class_names = base_train_dataset.classes
 
     # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
