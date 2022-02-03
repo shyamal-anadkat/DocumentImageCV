@@ -1,10 +1,24 @@
 from make_dataset import transform_data
 from model import train_model
+import click
 
-try:
-    images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
-    model = train_model(
-        images, dataloaders, batch_size, class_names, dataset_sizes, num_epochs=10
-    )
-except Exception as e:
-    print(e)
+
+@click.command()
+@click.option("--epochs", type=int, default=10)
+def run(epochs):
+    try:
+        images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
+        train_model(
+            images,
+            dataloaders,
+            batch_size,
+            class_names,
+            dataset_sizes,
+            num_epochs=epochs,
+        )
+    except Exception as e:
+        print(e)
+
+
+if __name__ == "__main__":
+    run()
