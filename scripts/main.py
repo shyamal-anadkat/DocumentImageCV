@@ -16,9 +16,9 @@ def run(epochs):
             dataset_sizes,
             num_epochs=epochs,
         )
-    except Exception as e:
+    except AttributeError as e:
         print(e)
 
 
 if __name__ == "__main__":
-    run()
+    run()  # pylint: disable=no-value-for-parameter
