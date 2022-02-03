@@ -1,8 +1,6 @@
-
 import numpy as np
 
 import torch
-
 
 
 import torch.nn as nn
@@ -28,7 +26,10 @@ class Multiclass_Net(nn.Module):
         x = self.out(x)
         return x
 
-net = Multiclass_Net(n_input=224*224*3, n_hidden1=100,  n_hidden2=50, n_hidden3=20, n_output=3)
+
+net = Multiclass_Net(
+    n_input=224 * 224 * 3, n_hidden1=100, n_hidden2=50, n_hidden3=20, n_output=3
+)
 
 
 def train_model(model, criterion, optimizer, trainloader, num_iter, device):
@@ -38,7 +39,7 @@ def train_model(model, criterion, optimizer, trainloader, num_iter, device):
     cost = []
 
     for _ in range(num_iter):
-        
+
         running_loss = 0.0
 
         for _, data in enumerate(trainloader):
@@ -73,18 +74,19 @@ optimizer1 = optim.SGD(net.parameters(), lr=0.01)
 n_iter = 135
 # Set device
 device1 = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-trainloader1 = dataloaders.get('train')
-valloader1 = dataloaders.get('val')
+trainloader1 = dataloaders.get("train")
+valloader1 = dataloaders.get("val")
 # Train model
-cost_path = train_model(net,criterion1,optimizer1,trainloader1,n_iter,device1)
+cost_path = train_model(net, criterion1, optimizer1, trainloader1, n_iter, device1)
 
 # Plot the cost over training
 plt.plot(cost_path)
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
 plt.show()
 
-def test_model(model,test_loader,device):
+
+def test_model(model, test_loader, device):
     # Turn autograd off
     with torch.no_grad():
 
@@ -102,9 +104,9 @@ def test_model(model,test_loader,device):
             # Feed inputs through model to get raw scores
             logits = net.forward(inputs)
             # Convert raw scores to probabilities (not necessary since we just care about discrete probs in this case)
-            probs = F.softmax(logits,dim=1)
+            probs = F.softmax(logits, dim=1)
             # Get discrete predictions using argmax
-            preds = np.argmax(probs.cpu().numpy(),axis=1)
+            preds = np.argmax(probs.cpu().numpy(), axis=1)
             # Add predictions and actuals to lists
             test_preds.extend(preds)
             y_true.extend(labels)
@@ -112,24 +114,22 @@ def test_model(model,test_loader,device):
         # Calculate the accuracy
         test_preds = np.array(test_preds)
         y_true = np.array(y_true)
-        test_acc = np.sum(test_preds == y_true)/y_true.shape[0]
-        
+        test_acc = np.sum(test_preds == y_true) / y_true.shape[0]
+
         # Recall for each class
         recall_vals = []
         for i in range(3):
-            class_idx = np.argwhere(y_true==i)
+            class_idx = np.argwhere(y_true == i)
             total = len(class_idx)
-            correct = np.sum(test_preds[class_idx]==i)
+            correct = np.sum(test_preds[class_idx] == i)
             recall = correct / total
             recall_vals.append(recall)
-    
-    return test_acc,recall_vals
 
-classes = ['English', 'Russian', 'Telugu']
-acc,recall_vals1 = test_model(net,valloader1,device1)
-print('Test set accuracy is {:.3f}'.format(acc))
+    return test_acc, recall_vals
+
+
+classes = ["English", "Russian", "Telugu"]
+acc, recall_vals1 = test_model(net, valloader1, device1)
+print("Test set accuracy is {:.3f}".format(acc))
 for j in range(3):
-    print('For class {}, recall is {}'.format(classes[j],recall_vals1[j]))
-
-
-
+    print("For class {}, recall is {}".format(classes[j], recall_vals1[j]))

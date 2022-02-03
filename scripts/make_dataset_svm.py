@@ -40,7 +40,7 @@ def transform_data():
                 transforms.Grayscale(3),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-                transforms.Lambda(lambda x: torch.flatten(x))
+                transforms.Lambda(lambda x: torch.flatten(x)),
             ]
         ),
         "val": transforms.Compose(
@@ -49,7 +49,7 @@ def transform_data():
                 transforms.Grayscale(3),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-                transforms.Lambda(lambda x: torch.flatten(x))
+                transforms.Lambda(lambda x: torch.flatten(x)),
             ]
         ),
     }
@@ -60,9 +60,7 @@ def transform_data():
     train_dataset = datasets.ImageFolder(
         os.path.join(data_dir, "train"), data_transforms["train"]
     )
-    
-    
-    
+
     val_dataset = datasets.ImageFolder(
         os.path.join(data_dir, "val"), data_transforms["val"]
     )
@@ -110,4 +108,14 @@ def transform_data():
 
     plt.show()
     print("All done!")
-    return train_dataset_array, train_dataset_label, val_dataset_array, val_dataset_label, images, dataloaders, batch_size, class_names, dataset_sizes
+    return (
+        train_dataset_array,
+        train_dataset_label,
+        val_dataset_array,
+        val_dataset_label,
+        images,
+        dataloaders,
+        batch_size,
+        class_names,
+        dataset_sizes,
+    )
