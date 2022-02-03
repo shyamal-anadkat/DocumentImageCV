@@ -48,16 +48,15 @@ def transform_data():
         ]),
     }
 
-
     extended_data_transforms = {
         'train': transforms.Compose([
-            transforms.RandomResizedCrop(244,scale=(0.5, 1.25), ratio=(0.75, 1.3)),
+            transforms.RandomResizedCrop(244, scale=(1.5, 1.75), ratio=(1.65, 1.85)),
             transforms.Grayscale(3),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ]),
         'val': transforms.Compose([
-            transforms.RandomResizedCrop(244,scale=(0.5, 1.25), ratio=(0.75, 1.3)),
+            transforms.RandomResizedCrop(244, scale=(1.5, 1.75), ratio=(1.65, 1.85)),
             transforms.Grayscale(3),
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
@@ -125,4 +124,5 @@ def transform_data():
 
     plt.show()
     print("All done!")
+
     return images, dataloaders, batch_size, class_names, dataset_sizes
