@@ -33,34 +33,60 @@ def transform_data():
     # We will grayscale on 3 levels (may want to drop it to one channel, but this works for the time being
     # For test set we will do only center cropping to get to 224 * 224 and normalization
 
-    data_transforms = {
-        "train": transforms.Compose(
-            [
-                transforms.CenterCrop(244),
-                transforms.Grayscale(3),
-                transforms.ToTensor(),
-                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-            ]
-        ),
-        "val": transforms.Compose(
-            [
-                transforms.CenterCrop(224),
-                transforms.Grayscale(3),
-                transforms.ToTensor(),
-                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-            ]
-        ),
+    base_data_transforms = {
+        'train': transforms.Compose([
+            transforms.CenterCrop(244),
+            transforms.Grayscale(3),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': transforms.Compose([
+            transforms.CenterCrop(224),
+            transforms.Grayscale(3),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
     }
 
+
+    extended_data_transforms = {
+        'train': transforms.Compose([
+            transforms.RandomResizedCrop(244,scale=(0.5, 1.25), ratio=(0.75, 1.3)),
+            transforms.Grayscale(3),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': transforms.Compose([
+            transforms.RandomResizedCrop(244,scale=(0.5, 1.25), ratio=(0.75, 1.3)),
+            transforms.Grayscale(3),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
+    
     # Create Datasets for training and validation sets
     data_dir = "../data/split_data"
+    
+    # base transform the date, only cropping the orginal on the center
+    base_train_dataset = datasets.ImageFolder(os.path.join(data_dir, 'train'),
+                                              base_data_transforms["train"])
+    base_val_dataset = datasets.ImageFolder(os.path.join(data_dir, 'val'),
+                                              base_data_transforms["val"])
+    
+    # augment the data with a round of random croping
+    extended_train_dataset = datasets.ImageFolder(os.path.join(data_dir, 'train'),
+                                              extended_data_transforms["train"])
+    extended_val_dataset = datasets.ImageFolder(os.path.join(data_dir, 'val'),
+                                              extended_data_transforms["val"])
+    
+    # augment the data with a round of random croping again
+    extended_train_dataset_2 = datasets.ImageFolder(os.path.join(data_dir, 'train'),
+                                              extended_data_transforms["train"])
+    extended_val_dataset_2 = datasets.ImageFolder(os.path.join(data_dir, 'val'),
+                                              extended_data_transforms["val"])
 
-    train_dataset = datasets.ImageFolder(
-        os.path.join(data_dir, "train"), data_transforms["train"]
-    )
-    val_dataset = datasets.ImageFolder(
-        os.path.join(data_dir, "val"), data_transforms["val"]
-    )
+train_dataset = torch.utils.data.ConcatDataset([base_train_dataset, extended_train_dataset, extended_train_dataset_2])
+val_dataset = torch.utils.data.ConcatDataset([base_val_dataset, extended_val_dataset, extended_val_dataset_2])
 
     # Create DataLoaders for training and validation sets
     batch_size = 4
