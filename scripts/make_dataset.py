@@ -85,8 +85,8 @@ def transform_data():
     extended_val_dataset_2 = datasets.ImageFolder(os.path.join(data_dir, 'val'),
                                               extended_data_transforms["val"])
 
-train_dataset = torch.utils.data.ConcatDataset([base_train_dataset, extended_train_dataset, extended_train_dataset_2])
-val_dataset = torch.utils.data.ConcatDataset([base_val_dataset, extended_val_dataset, extended_val_dataset_2])
+    train_dataset = torch.utils.data.ConcatDataset([base_train_dataset, extended_train_dataset, extended_train_dataset_2])
+    val_dataset = torch.utils.data.ConcatDataset([base_val_dataset, extended_val_dataset, extended_val_dataset_2])
 
     # Create DataLoaders for training and validation sets
     batch_size = 4
