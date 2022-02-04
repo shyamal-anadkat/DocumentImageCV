@@ -57,18 +57,71 @@ def transform_data():
             ]
         ),
     }
+    
+     extended_data_transforms = {
+        "train": transforms.Compose(
+            [
+                transforms.RandomResizedCrop(
+                    224, scale=(1.5, 1.75), ratio=(1.65, 1.85)
+                ),
+                transforms.Grayscale(3),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+                transforms.Lambda(
+                    lambda x: torch.flatten(x)  # pylint: disable=unnecessary-lambda
+                ),
+            ]
+        ),
+        "val": transforms.Compose(
+            [
+                transforms.RandomResizedCrop(
+                    224, scale=(1.5, 1.75), ratio=(1.65, 1.85)
+                ),
+                transforms.Grayscale(3),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+                transforms.Lambda(
+                    lambda x: torch.flatten(x)  # pylint: disable=unnecessary-lambda
+                ),
+            ]
+        ),
+    }
 
     # Create Datasets for training and validation sets
     data_dir = "../data/split_data"
 
-    train_dataset = datasets.ImageFolder(
-        os.path.join(data_dir, "train"), data_transforms["train"]
+    # base transform the date, only cropping the orginal on the center
+    base_train_dataset = datasets.ImageFolder(
+        os.path.join(data_dir, "train"), base_data_transforms["train"]
+    )
+    base_val_dataset = datasets.ImageFolder(
+        os.path.join(data_dir, "val"), base_data_transforms["val"]
     )
 
-    val_dataset = datasets.ImageFolder(
-        os.path.join(data_dir, "val"), data_transforms["val"]
+    # augment the data with a round of random croping
+    extended_train_dataset = datasets.ImageFolder(
+        os.path.join(data_dir, "train"), extended_data_transforms["train"]
+    )
+    extended_val_dataset = datasets.ImageFolder(
+        os.path.join(data_dir, "val"), extended_data_transforms["val"]
     )
 
+    # augment the data with a round of random croping again
+    extended_train_dataset_2 = datasets.ImageFolder(
+        os.path.join(data_dir, "train"), extended_data_transforms["train"]
+    )
+    extended_val_dataset_2 = datasets.ImageFolder(
+        os.path.join(data_dir, "val"), extended_data_transforms["val"]
+    )
+
+    train_dataset = torch.utils.data.ConcatDataset(
+        [base_train_dataset, extended_train_dataset, extended_train_dataset_2]
+    )
+    val_dataset = torch.utils.data.ConcatDataset(
+        [base_val_dataset, extended_val_dataset, extended_val_dataset_2]
+    )
+
+   
     # Create DataLoaders for training and validation sets
     batch_size = 4
     train_loader = torch.utils.data.DataLoader(
