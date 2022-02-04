@@ -58,7 +58,7 @@ def transform_data():
         ),
     }
     
-     extended_data_transforms = {
+    extended_data_transforms = {
         "train": transforms.Compose(
             [
                 transforms.RandomResizedCrop(
