@@ -33,7 +33,7 @@ def transform_data():
     # We will grayscale on 3 levels (may want to drop it to one channel, but this works for the time being
     # For test set we will do only center cropping to get to 224 * 224 and normalization
 
-    data_transforms = {
+    base_data_transforms = {
         "train": transforms.Compose(
             [
                 transforms.CenterCrop(224),
