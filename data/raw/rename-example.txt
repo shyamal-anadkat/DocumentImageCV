@@ -1,3 +1,11 @@
+
+# Used to rename the images downloaded within the respective directory
+# Run these three commands one after the other within the directory where all images are
+# The first and last command will spit out the count of files
+# The second command will !!RENAME!! the image files so they are consistent and numbered.
+# REPLACE "english" with the respective name & VALIDATE AFTER
+# ~ shyamal anadkat ~
+
 ls | wc -l
 ls -v | cat -n | while read n f; do mv -n "$f" "english$n.jpg"; done
 ls | wc -l

@@ -57,7 +57,7 @@ def transform_data():
             ]
         ),
     }
-    
+
     extended_data_transforms = {
         "train": transforms.Compose(
             [
@@ -121,7 +121,6 @@ def transform_data():
         [base_val_dataset, extended_val_dataset, extended_val_dataset_2]
     )
 
-   
     # Create DataLoaders for training and validation sets
     batch_size = 4
     train_loader = torch.utils.data.DataLoader(
