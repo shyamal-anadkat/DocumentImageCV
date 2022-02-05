@@ -22,7 +22,6 @@ def __train(
     dataset_sizes,
     num_epochs=25,
 ):
-    model = model.to(device)  # Send model to GPU if available
     since = time.time()
 
     best_model_wts = copy.deepcopy(model.state_dict())
@@ -42,43 +41,38 @@ def __train(
             running_loss = 0.0
             running_corrects = 0
 
-            # Get the input images and labels, and send to GPU if available
+            # Iterate over data.
             for inputs, labels in dataloaders[phase]:
                 inputs = inputs.to(device)
                 labels = labels.to(device)
 
-                # Zero the weight gradients
+                # zero the parameter gradients
                 optimizer.zero_grad()
 
-                # Forward pass to get outputs and calculate loss
-                # Track gradient only for training data
+                # forward
+                # track history if only in train
                 with torch.set_grad_enabled(phase == "train"):
                     outputs = model(inputs)
                     _, preds = torch.max(outputs, 1)
                     loss = criterion(outputs, labels)
 
-                    # Backpropagation to get the gradients with respect to each weight
-                    # Only if in train
+                    # backward + optimize only if in training phase
                     if phase == "train":
                         loss.backward()
-                        # Update the weights
                         optimizer.step()
 
-                # Convert loss into a scalar and add it to running_loss
+                # statistics
                 running_loss += loss.item() * inputs.size(0)
-                # Track number of correct predictions
                 running_corrects += torch.sum(preds == labels.data)
-
-            # Step along learning rate scheduler when in train
             if phase == "train":
                 scheduler.step()
 
-            # Calculate and display average loss and accuracy for the epoch
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
+
             print("{} Loss: {:.4f} Acc: {:.4f}".format(phase, epoch_loss, epoch_acc))
 
-            # If model performs better on val set, save weights as the best model
+            # deep copy the model
             if phase == "val" and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
@@ -91,21 +85,20 @@ def __train(
             time_elapsed // 60, time_elapsed % 60
         )
     )
-    print("Best val Acc: {:3f}".format(best_acc))
+    print("Best val Acc: {:4f}".format(best_acc))
 
-    # Load the weights from best model
+    # load best model weights
     model.load_state_dict(best_model_wts)
-
     return model
 
 
 # Display a batch of predictions
-def __visualize_results(model, device, val_loader, class_names):
+def __visualize_results(model, images, class_names, dataloaders, device):
     model = model.to(device)  # Send model to GPU if available
     with torch.no_grad():
         model.eval()
         # Get a batch of validation images
-        images, labels = iter(val_loader).next()
+        images, labels = iter(dataloaders["val"]).next()
         images, labels = images.to(device), labels.to(device)
         # Get predictions
         _, preds = torch.max(model(images), 1)
@@ -175,16 +168,14 @@ def __test_model(model, test_loader, device):
 def train_model(
     images, dataloaders, batch_size, class_names, dataset_sizes, num_epochs=10
 ):
-    # We will used a pre-trained ResNet18 model, so our architecture has already been defined.
-    # The cell below loads the ResNet18 pre-trained model, freezes the model layers so that they are not trained during
+    # We will used a pre-trained ResNet34 model, so our architecture has already been defined.
+    # The cell below loads the ResNet34 pre-trained model, freezes the model layers so that they are not trained during
     # training (we will only train a final new layer which we will add on), and
     # displays a summary of the model layers and the output shape of the input after passing through each layer.
     # Instantiate pre-trained resnet
 
-    # train_loader = dataloaders.get("train")
-    val_loader = dataloaders.get("val")
+    net = torchvision.models.resnet34(pretrained=True)
 
-    net = torchvision.models.resnet18(pretrained=True)
     # Shut off autograd for all layers to freeze model so the layer weights are not trained
     for param in net.parameters():
         param.requires_grad = False
@@ -194,23 +185,26 @@ def train_model(
 
     # Get the number of inputs to final Linear layer
     num_ftrs = net.fc.in_features
+
     # Replace final Linear layer with a new Linear with the same number of inputs but just 2 outputs,
     # since we have 3 classes
-    net.fc = nn.Linear(num_ftrs, 3)
+    net.fc = nn.Linear(in_features=num_ftrs, out_features=3)
 
     # We will use Cross Entropy as the cost/loss function and SGD for the optimizer.
 
     # Cross entropy loss combines softmax and nn.NLLLoss() in one single class.
     criterion = nn.CrossEntropyLoss()
 
-    # Define optimizer
+    # Observe that all parameters are being optimized
     optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-    # Learning rate scheduler - decay LR by a factor of 0.1 every 7 epochs
-    lr_scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
+    # Decay LR by a factor of 0.1 every 7 epochs
+    lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
 
     # Set device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    if torch.cuda.is_available():
+        net.cuda()
 
     # Train the model
     net = __train(
@@ -224,10 +218,10 @@ def train_model(
         num_epochs,
     )
 
-    __visualize_results(net, device, val_loader, class_names)
+    __visualize_results(net, images, class_names, dataloaders, device)
 
     # Test the pre-trained model
-    acc, recall_vals = __test_model(net, val_loader, device)
+    acc, recall_vals = __test_model(net, dataloaders["val"], device)
     print("Test set accuracy is {:.3f}".format(acc))
     for i in range(3):
         print("For class {}, recall is {}".format(class_names[i], recall_vals[i]))
