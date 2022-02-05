@@ -82,8 +82,6 @@ def transform_data():
     dataset_sizes = {x: len(image_datasets[x]) for x in ["train", "val"]}
     class_names = image_datasets["train"].classes
 
-    # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
     # Get a batch of training data
     images, classes = next(iter(dataloaders["train"]))
     print(images.shape)
@@ -93,7 +91,7 @@ def transform_data():
 
     __imshow(out, title=[class_names[x] for x in classes])
 
-    return images, dataloaders, batch_size, class_names, dataset_sizes
+    return (images, dataloaders, batch_size, class_names, dataset_sizes)
 
 
 if __name__ == "__main__":
