@@ -37,7 +37,7 @@ def transform_data():
         "train": transforms.Compose(
             [
                 transforms.CenterCrop(224),
-                transforms.Grayscale(1),
+                transforms.Grayscale(3),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
                 transforms.Lambda(
@@ -48,7 +48,7 @@ def transform_data():
         "val": transforms.Compose(
             [
                 transforms.CenterCrop(224),
-                transforms.Grayscale(1),
+                transforms.Grayscale(3),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
                 transforms.Lambda(
@@ -64,7 +64,7 @@ def transform_data():
                 transforms.RandomResizedCrop(
                     224, scale=(1.5, 1.75), ratio=(1.65, 1.85)
                 ),
-                transforms.Grayscale(1),
+                transforms.Grayscale(3),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
                 transforms.Lambda(
@@ -77,7 +77,7 @@ def transform_data():
                 transforms.RandomResizedCrop(
                     224, scale=(1.5, 1.75), ratio=(1.65, 1.85)
                 ),
-                transforms.Grayscale(1),
+                transforms.Grayscale(3),
                 transforms.ToTensor(),
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
                 transforms.Lambda(
