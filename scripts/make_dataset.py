@@ -75,7 +75,7 @@ def transform_data():
     }
     dataloaders = {
         x: torch.utils.data.DataLoader(
-            image_datasets[x], batch_size=4, shuffle=True, num_workers=4
+            image_datasets[x], batch_size=batch_size, shuffle=True, num_workers=4
         )
         for x in ["train", "val"]
     }

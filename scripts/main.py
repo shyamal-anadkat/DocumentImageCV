@@ -5,17 +5,19 @@ import click
 
 @click.command()
 @click.option("--epochs", type=int, default=10)
-def run(epochs):
+@click.option("--justdataset", is_flag=True)
+def run(epochs, justdataset):
     try:
         images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
-        train_model(
-            images,
-            dataloaders,
-            batch_size,
-            class_names,
-            dataset_sizes,
-            num_epochs=epochs,
-        )
+        if not justdataset:
+            train_model(
+                images,
+                dataloaders,
+                batch_size,
+                class_names,
+                dataset_sizes,
+                num_epochs=epochs,
+            )
     except AttributeError as e:
         print(e)
 
