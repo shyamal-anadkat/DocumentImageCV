@@ -26,7 +26,7 @@ def __train(
 
     best_model_wts = copy.deepcopy(model.state_dict())
     best_acc = 0.0
-
+    cost = []
     for epoch in range(num_epochs):
         print("Epoch {}/{}".format(epoch, num_epochs - 1))
         print("-" * 10)
@@ -71,7 +71,8 @@ def __train(
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
 
             print("{} Loss: {:.4f} Acc: {:.4f}".format(phase, epoch_loss, epoch_acc))
-
+            if phase == "train":
+                cost.append(epoch_loss)
             # deep copy the model
             if phase == "val" and epoch_acc > best_acc:
                 best_acc = epoch_acc
@@ -89,7 +90,7 @@ def __train(
 
     # load best model weights
     model.load_state_dict(best_model_wts)
-    return model
+    return model,cost
 
 
 # Display a batch of predictions
@@ -207,7 +208,7 @@ def train_model(
         net.cuda()
 
     # Train the model
-    net = __train(
+    net,cost_path = __train(
         net,
         criterion,
         optimizer,
@@ -225,7 +226,9 @@ def train_model(
     print("Test set accuracy is {:.3f}".format(acc))
     for i in range(3):
         print("For class {}, recall is {}".format(class_names[i], recall_vals[i]))
-
+    plt.plot(cost_path)
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
     plt.show()
     print("All done!")
     return net
