@@ -20,10 +20,10 @@ def run(epochs, onlytransform):
                 num_epochs=epochs,
             )
             print('Saving model in "models" ------')
-            torch.save(model.state_dict(), '../models/model.pt')
+            torch.save(model.state_dict(), "../models/model.pt")
     except AttributeError as e:
         print(e)
 
 
 if __name__ == "__main__":
-    model = run()  # pylint: disable=no-value-for-parameter
+    run()  # pylint: disable=no-value-for-parameter
