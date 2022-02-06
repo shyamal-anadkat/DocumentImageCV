@@ -13,4 +13,4 @@ torchsummary
 torchvision
 split-folders
 thundersvm
-pytorch_lightning
+streamlit

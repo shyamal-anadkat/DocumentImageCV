@@ -10,7 +10,7 @@ def run(epochs, onlytransform):
     try:
         images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
         if not onlytransform:
-            train_model(
+            return train_model(
                 images,
                 dataloaders,
                 batch_size,
@@ -23,4 +23,4 @@ def run(epochs, onlytransform):
 
 
 if __name__ == "__main__":
-    run()  # pylint: disable=no-value-for-parameter
+    model = run()  # pylint: disable=no-value-for-parameter
