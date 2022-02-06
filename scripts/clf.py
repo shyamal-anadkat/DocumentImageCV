@@ -10,7 +10,7 @@ def predict(image_path):
     num_ftrs = resnet.fc.in_features
     resnet.fc = nn.Linear(in_features=num_ftrs, out_features=3)
     resnet.load_state_dict(
-        torch.load("../models/model.pt", map_location=torch.device("cpu"))
+        torch.load("models/model.pt", map_location=torch.device("cpu"))
     )
 
     # https://pytorch.org/docs/stable/torchvision/models.html
