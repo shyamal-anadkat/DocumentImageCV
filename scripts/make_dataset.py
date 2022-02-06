@@ -35,7 +35,6 @@ def transform_data():
         "../data/raw/data_to_transform",
         output="../data/split_data",
         seed=101,
-        ratio=(0.75, 0.15, 0.1),
         group_prefix=None,
     )  # default values
 
