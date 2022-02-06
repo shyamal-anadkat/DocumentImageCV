@@ -20,23 +20,23 @@ Note: if you use Colab Pro for your project, you can include a **run.ipynb** not
 ```
 ├── README.md               <- description of project and how to set up and run it
 ├── requirements.txt        <- requirements file to document dependencies
-├── Makefile [OPTIONAL]     <- setup and run project from command line
-├── run.ipynb [OPTIONAL]    <- run project on Google Colab (only include if using Google Colab for project)
+├── Makefile                <- setup and run project from command line
 ├── setup.py                <- script to set up project (get data, build features, train model)
 ├── app.py                  <- app to run project / user interface
 ├── scripts                 <- directory for pipeline scripts or utility scripts
-    ├── make_dataset.py     <- script to get data [OPTIONAL]
-    ├── build_features.py   <- script to run pipeline to generate features [OPTIONAL]
-    ├── model.py            <- script to train model and predict [OPTIONAL]
+    ├── make_dataset.py     <- script to transfomr data
+    ├── remove_corrupt.py   <- script to remove corrupt images from raw
+    ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
+    ├── model.py            <- script to train model and predict
 ├── models                  <- directory for trained models
 ├── data                    <- directory for project data
-    ├── raw                 <- directory for raw data or script to download
-    ├── processed           <- directory to store processed data
-    ├── outputs             <- directory to store any output data
+    ├── raw                 <- directory for raw & transformed data or script to download
 ├── notebooks               <- directory to store any exploration notebooks used
 ├── .gitignore              <- git ignore file
 ```
 
+Run app: ` streamlit run app.py
+`
 
 ```
 100 epochs | Feb 5 
