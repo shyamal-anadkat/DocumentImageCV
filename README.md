@@ -36,3 +36,14 @@ Note: if you use Colab Pro for your project, you can include a **run.ipynb** not
 ├── notebooks               <- directory to store any exploration notebooks used
 ├── .gitignore              <- git ignore file
 ```
+
+
+```
+100 epochs | Feb 5 
+Training complete in 29m 2s
+Best val Acc: 0.810651
+Test set accuracy is 0.811
+For class english, recall is 0.8484848484848485
+For class russian, recall is 0.6727272727272727
+For class telugu, recall is 0.9166666666666666
+```
