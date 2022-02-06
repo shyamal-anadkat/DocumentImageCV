@@ -1,6 +1,7 @@
 from make_dataset import transform_data
 from model import train_model
 import click
+import torch
 
 
 @click.command()
@@ -10,7 +11,7 @@ def run(epochs, onlytransform):
     try:
         images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
         if not onlytransform:
-            return train_model(
+            model = train_model(
                 images,
                 dataloaders,
                 batch_size,
@@ -18,6 +19,8 @@ def run(epochs, onlytransform):
                 dataset_sizes,
                 num_epochs=epochs,
             )
+            print('Saving model in "models" ------')
+            torch.save(model.state_dict(), '../models/model.pt')
     except AttributeError as e:
         print(e)
 
