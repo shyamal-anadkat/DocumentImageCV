@@ -90,7 +90,7 @@ def __train(
 
     # load best model weights
     model.load_state_dict(best_model_wts)
-    return model,cost
+    return model, cost
 
 
 # Display a batch of predictions
@@ -208,7 +208,7 @@ def train_model(
         net.cuda()
 
     # Train the model
-    net,cost_path = __train(
+    net, cost_path = __train(
         net,
         criterion,
         optimizer,
