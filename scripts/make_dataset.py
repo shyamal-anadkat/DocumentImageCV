@@ -91,7 +91,7 @@ def transform_data():
 
     __imshow(out, title=[class_names[x] for x in classes])
 
-    return (images, dataloaders, batch_size, class_names, dataset_sizes)
+    return images, dataloaders, batch_size, class_names, dataset_sizes
 
 
 if __name__ == "__main__":

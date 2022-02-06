@@ -5,11 +5,11 @@ import click
 
 @click.command()
 @click.option("--epochs", type=int, default=10)
-@click.option("--justdataset", is_flag=True)
-def run(epochs, justdataset):
+@click.option("--onlytransform", is_flag=True)
+def run(epochs, onlytransform):
     try:
         images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()
-        if not justdataset:
+        if not onlytransform:
             train_model(
                 images,
                 dataloaders,
