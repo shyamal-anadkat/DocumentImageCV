@@ -22,6 +22,18 @@ def __train(
     dataset_sizes,
     num_epochs=25,
 ):
+    """
+    Model training
+    :param model:
+    :param criterion:
+    :param optimizer:
+    :param dataloaders:
+    :param scheduler:
+    :param device:
+    :param dataset_sizes:
+    :param num_epochs:
+    :return:
+    """
     since = time.time()
 
     best_model_wts = copy.deepcopy(model.state_dict())
@@ -95,6 +107,15 @@ def __train(
 
 # Display a batch of predictions
 def __visualize_results(model, images, class_names, dataloaders, device):
+    """
+    Visualize a batch of predictions
+    :param model:
+    :param images:
+    :param class_names:
+    :param dataloaders:
+    :param device:
+    :return:
+    """
     model = model.to(device)  # Send model to GPU if available
     with torch.no_grad():
         model.eval()
@@ -125,6 +146,13 @@ def __visualize_results(model, images, class_names, dataloaders, device):
 
 
 def __test_model(model, test_loader, device):
+    """
+    Test the model given the net, test loader and device
+    :param model:
+    :param test_loader:
+    :param device:
+    :return:
+    """
     model = model.to(device)
     # Turn autograd off
     with torch.no_grad():

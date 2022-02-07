@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from thundersvm import SVC
 from make_dataset_svm import transform_data
 
-#get dataset for training
+# get dataset for training
 (
     train_dataset_array,
     train_dataset_label,
@@ -20,13 +20,13 @@ y_train = train_dataset_label
 x_val = val_dataset_array
 y_val = val_dataset_label
 
-#define model
+# define model
 model = SVC(C=100, kernel="rbf")
 
-#train model
+# train model
 model.fit(x_train, y_train)
 
-#predict output with validation dataset
+# predict output with validation dataset
 y_pred = model.predict(x_val)
 print(f"The model is {accuracy_score(y_pred,y_val)*100}% accurate")
 plot_confusion_matrix(model, x_val, y_val)
