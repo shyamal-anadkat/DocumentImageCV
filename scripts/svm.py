@@ -1,5 +1,5 @@
 from sklearn.metrics import accuracy_score, plot_confusion_matrix
-import matplotlab.pyplot as plt
+import matplotlib.pyplot as plt
 from thundersvm import SVC
 from make_dataset_svm import transform_data
 
