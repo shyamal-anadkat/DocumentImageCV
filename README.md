@@ -47,3 +47,5 @@ For class english, recall is 0.8484848484848485
 For class russian, recall is 0.6727272727272727
 For class telugu, recall is 0.9166666666666666
 ```
+
+![image](https://user-images.githubusercontent.com/12115186/152719849-61043715-60fc-4bbd-bfc6-9db34b5e4b76.png)
