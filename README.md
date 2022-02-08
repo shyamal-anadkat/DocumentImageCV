@@ -26,6 +26,7 @@ Note: if you use Colab Pro for your project, you can include a **run.ipynb** not
 ├── scripts                 <- directory for pipeline scripts or utility scripts
     ├── make_dataset.py     <- script to transfomr data
     ├── remove_corrupt.py   <- script to remove corrupt images from raw
+    ├── document_augment.py <- script to augment document image via OpenCV
     ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
     ├── model.py            <- script to train model and predict
 ├── models                  <- directory for trained models
@@ -46,6 +47,16 @@ Test set accuracy is 0.811
 For class english, recall is 0.8484848484848485
 For class russian, recall is 0.6727272727272727
 For class telugu, recall is 0.9166666666666666
+```
+
+```
+100 epochs | Feb 7 
+Training complete in 27m 6s
+Best val Acc: 0.818182
+Test set accuracy is 0.818
+For class english, recall is 0.7916666666666666
+For class russian, recall is 0.8205128205128205
+For class telugu, recall is 0.8529411764705882
 ```
 
 ![image](https://user-images.githubusercontent.com/12115186/152719849-61043715-60fc-4bbd-bfc6-9db34b5e4b76.png)
