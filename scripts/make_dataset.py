@@ -67,19 +67,23 @@ def transform_data():
 
     # Create Datasets for training and validation sets
     data_dir = "../data/split_data"
-    batch_size = 4
+    batch_size = 4  # pylint: disable=redefined-outer-name
     image_datasets = {
         x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x])
         for x in ["train", "val"]
     }
-    dataloaders = {
+    dataloaders = {  # pylint: disable=redefined-outer-name
         x: torch.utils.data.DataLoader(
             image_datasets[x], batch_size=batch_size, shuffle=True, num_workers=4
         )
         for x in ["train", "val"]
     }
-    dataset_sizes = {x: len(image_datasets[x]) for x in ["train", "val"]}
-    class_names = image_datasets["train"].classes
+    dataset_sizes = {  # pylint: disable=redefined-outer-name
+        x: len(image_datasets[x]) for x in ["train", "val"]
+    }  # pylint: disable=redefined-outer-name
+    class_names = image_datasets[  # pylint: disable=redefined-outer-name
+        "train"
+    ].classes  # pylint: disable=redefined-outer-name
 
     # Get a batch of training data
     images, classes = next(iter(dataloaders["train"]))
@@ -94,4 +98,4 @@ def transform_data():
 
 
 if __name__ == "__main__":
-    transform_data()
+    images, dataloaders, batch_size, class_names, dataset_sizes = transform_data()

@@ -17,7 +17,6 @@ def __train(
     criterion,
     optimizer,
     dataloaders,
-    scheduler,
     device,
     dataset_sizes,
     num_epochs=25,
@@ -76,8 +75,6 @@ def __train(
                 # statistics
                 running_loss += loss.item() * inputs.size(0)
                 running_corrects += torch.sum(preds == labels.data)
-            if phase == "train":
-                scheduler.step()
 
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
@@ -198,16 +195,11 @@ def train_model(
     images, dataloaders, batch_size, class_names, dataset_sizes, num_epochs=10
 ):
     # We will used a pre-trained ResNet34 model, so our architecture has already been defined.
-    # The cell below loads the ResNet34 pre-trained model, freezes the model layers so that they are not trained during
-    # training (we will only train a final new layer which we will add on), and
+    # The cell below loads the ResNet34 model
     # displays a summary of the model layers and the output shape of the input after passing through each layer.
     # Instantiate pre-trained resnet
 
     net = torchvision.models.resnet34(pretrained=True)
-
-    # Shut off autograd for all layers to freeze model so the layer weights are not trained
-    for param in net.parameters():
-        param.requires_grad = False
 
     # Display a summary of the layers of the model and output shape after each layer
     summary(net, (images.shape[1:]), batch_size=batch_size, device="cpu")
@@ -219,16 +211,17 @@ def train_model(
     # since we have 3 classes
     net.fc = nn.Linear(in_features=num_ftrs, out_features=3)
 
-    # We will use Cross Entropy as the cost/loss function and SGD for the optimizer.
+    # We will use Cross Entropy as the cost/loss function and Adam for the optimizer.
 
     # Cross entropy loss combines softmax and nn.NLLLoss() in one single class.
     criterion = nn.CrossEntropyLoss()
 
     # Observe that all parameters are being optimized
-    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+    # optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+    optimizer = optim.Adam(net.parameters(), lr=0.001, weight_decay=0.0001)
 
-    # Decay LR by a factor of 0.1 every 7 epochs
-    lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
+    # Decay LR by a factor of 0.1 every 7 epochs (not used since Adam converges better)
+    # lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
 
     # Set device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -241,7 +234,6 @@ def train_model(
         criterion,
         optimizer,
         dataloaders,
-        lr_scheduler,
         device,
         dataset_sizes,
         num_epochs,
