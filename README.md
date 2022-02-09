@@ -81,4 +81,4 @@ For class telugu, recall is 1.0
 🥁
 
 
-![image](https://user-images.githubusercontent.com/12115186/152719849-61043715-60fc-4bbd-bfc6-9db34b5e4b76.png)
+<img width="1768" alt="image" src="https://user-images.githubusercontent.com/12115186/153104350-2a70e0ae-0338-427c-b110-1f387d76c296.png">
