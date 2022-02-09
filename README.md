@@ -2,8 +2,8 @@
 
 AIPI 540 Computer Vision
 ========================
-## Dense Text Image Identifiction
-#### Fall Semester 2022
+## Dense Text Image Language Identification
+#### Spring Semester 2022
 
 <br>
 
@@ -22,18 +22,22 @@ cloning the repo. By executing the step in order from the parent folder, and
 opening the **notebooks/main.ipynb** file you will be able to run and see the results
 from our work.
 
-1. execute Makefile
+1. Execute Makefile
 ```
 make install
 ```
 
-2. Launch and open jupyter lab/nb and acess the notebooks/main.ipynb files
+2. Launch and open Jupyter lab/nb/colab and acess the notebooks/main.ipynb files
    The notebook has the code to install required packages and walks through the
    major steps in the pipeline process.
+
 ```
 jupyter lab notebooks/main.ipynb
 ```
-3. After looking at our main jupyter notebook, run and execute the streamlit app for
+
+The main script being run is: `scripts/main.py`. The Jupyter notebook is intended to be user-friendly. 
+
+3. After looking at our main Jupyter notebook, run and execute the streamlit app for
    applications demo.
 
 ```
@@ -54,6 +58,7 @@ streamlit run app.py
     ├── data_augment.py     <- script to augment document image via OpenCV (sharpen, guassian blur etc)
     ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
     ├── model.py            <- script to train model and predict
+    ├── main.py             <- script to run make_dataset and model.py. This will also save the model within models/.
 ├── docs                    <- class project requirment outline
 ├── models                  <- directory for trained models
 ├── data                    <- directory for project data
