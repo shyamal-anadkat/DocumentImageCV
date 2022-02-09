@@ -9,8 +9,10 @@ def predict(image_path):
     resnet = models.resnet34(pretrained=True)
     num_ftrs = resnet.fc.in_features
     resnet.fc = nn.Linear(in_features=num_ftrs, out_features=3)
+    model = "model_v2.pt"
+    print("Loading:", model)
     resnet.load_state_dict(
-        torch.load("models/model.pt", map_location=torch.device("cpu"))
+        torch.load("models/" + model, map_location=torch.device("cpu"))
     )
 
     # https://pytorch.org/docs/stable/torchvision/models.html
@@ -30,8 +32,9 @@ def predict(image_path):
     resnet.eval()
     out = resnet(batch_t)
 
-    classes = ["english", "telugu", "russian"]
+    classes = ["english", "russian", "telugu"]
 
     prob = torch.nn.functional.softmax(out, dim=1)[0] * 100
+    print(prob)
     _, indices = torch.sort(out, descending=True)
     return [(classes[idx], prob[idx].item()) for idx in indices[0][:3]]

@@ -61,17 +61,24 @@ For class telugu, recall is 0.8529411764705882
 
 🥁
 
+#### **Unfreezed + Augmentation using OpenCV, Final | Feb 8**
 ```
-Unfreezed, Final | Feb 8 
+
+With 20 epochs: 
 Best val Acc: 0.851240
 Test set accuracy is 0.851
 For class english, recall is 0.875
 For class russian, recall is 0.7435897435897436
 For class telugu, recall is 0.9411764705882353
+
+
+With 50 epochs: 
+Test set accuracy is 0.926
+For class english, recall is 0.8958333333333334
+For class russian, recall is 0.8974358974358975
+For class telugu, recall is 1.0
 ```
 🥁
-
-<img width="439" alt="image" src="https://user-images.githubusercontent.com/12115186/153099914-897a5cb4-2417-45d5-aa38-7e8cddad9476.png">
 
 
 ![image](https://user-images.githubusercontent.com/12115186/152719849-61043715-60fc-4bbd-bfc6-9db34b5e4b76.png)
