@@ -19,17 +19,19 @@ language(s). For example, I can click a picture of a piece of text on my iPhone,
 
 To use and repoduce our teams results follow the steps outlined here after
 cloning the repo. By executing the step in order from the parent folder, and
-opening the **notebooks/main.ipynb** file you will be able to run and see the
+opening the **notebooks/main.ipynb** file you will be able to run and see the results
 from our work.
 
-1. pip install requirments files
+1. execute Makefile
 ```
-# execute in parent directory after cloning
-pip install -r requirments.txt
+make install
 ```
+
 2. Launch and open jupyter lab/nb and acess the notebooks/main.ipynb files
+   The notebook has the code to install required packages and walks through the
+   major steps in the pipeline process.
 ```
-jupyter lab notebooks/main.py
+jupyter lab notebooks/main.ipynb
 ```
 3. After looking at our main jupyter notebook, run and execute the streamlit app for
    applications demo.
