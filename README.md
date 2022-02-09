@@ -1,12 +1,9 @@
 [![build](https://github.com/shyamal-anadkat/AIPI540_ComputerVision/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/shyamal-anadkat/AIPI540_ComputerVision/actions/workflows/main.yml)
 
-AIPI 540 Computer Vision
+Dense Text Image Language Identification
 ========================
-## Dense Text Image Language Identification
-#### Spring Semester 2022
-
+#### AIPI 540 Computer Vision | Spring Semester 2022
 <br>
-
 **Team Members:** Christopher Oblak, Shyamal Anadkat, Yudong Liu
 
 **Problem definition:** Detect the language from a text based image/picture of a dense document.
