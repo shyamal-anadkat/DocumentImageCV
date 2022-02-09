@@ -2,8 +2,8 @@
 
 AIPI 540 Computer Vision
 ========================
-##Dense Text Image Identifiction
-####Fall Semester 2022
+## Dense Text Image Identifiction
+#### Fall Semester 2022
 
 <br>
 
@@ -15,7 +15,7 @@ AIPI 540 Computer Vision
 from an image. The idea is to build a classification CV model that would output the confidence levels of the detected
 language(s). For example, I can click a picture of a piece of text on my iPhone, and the model would output if it’s in Gujarati or Telugu. This can be used as a parser to feed the image to models/pipelines designed for specific text and translation applications
 
-###Usage
+### Usage
 
 To use and repoduce our teams results follow the steps outlined here after
 cloning the repo. By executing the step in order from the parent folder, and
@@ -38,7 +38,7 @@ jupyter lab notebooks/main.py
 streamlit run app.py
 ```
 
-###GitHub Framework
+### GitHub Framework
 
 
 ```
@@ -112,4 +112,4 @@ For class russian, recall is 0.8974358974358975
 For class telugu, recall is 1.0
 ```
 
-#####__Thank you for taking the time to look and use are pipeline__
+##### __Thank you for taking the time to look and use are pipeline__
