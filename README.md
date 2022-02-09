@@ -26,13 +26,13 @@ Note: if you use Colab Pro for your project, you can include a **run.ipynb** not
 ├── scripts                 <- directory for pipeline scripts or utility scripts
     ├── make_dataset.py     <- script to transfomr data
     ├── remove_corrupt.py   <- script to remove corrupt images from raw
-    ├── document_augment.py <- script to augment document image via OpenCV
+    ├── data_augment.py     <- script to augment document image via OpenCV (sharpen, guassian blur etc)
     ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
     ├── model.py            <- script to train model and predict
 ├── models                  <- directory for trained models
 ├── data                    <- directory for project data
     ├── raw                 <- directory for raw & transformed data or script to download
-├── notebooks               <- directory to store any exploration notebooks used
+├── notebooks               <- directory to store any exploration notebooks used (see main.ipynb)
 ├── .gitignore              <- git ignore file
 ```
 
