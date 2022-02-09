@@ -94,7 +94,7 @@ For class telugu, recall is 0.8529411764705882
 ```
 
 
-#### **Unfreezed + Augmentation using OpenCV, Final | Feb 8**
+#### **Unfreezed Model Weights + Augmentation using OpenCV, Final | Feb 8**
 ```
 
 With 20 epochs:
@@ -111,5 +111,3 @@ For class english, recall is 0.8958333333333334
 For class russian, recall is 0.8974358974358975
 For class telugu, recall is 1.0
 ```
-
-##### __Thank you for taking the time to look and use are pipeline__
