@@ -62,7 +62,6 @@ streamlit run app.py
     ├── data_augment.py     <- script to augment document image via OpenCV (sharpen, guassian blur etc)
     ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
     ├── model.py            <- script to train model and predict
-    ├── app.py              <- script to run the streamlit app
     ├── clf.py              <- classifier script used by app.py for the application
     ├── main.py             <- script to run make_dataset and model.py. This will also save the model within models/.
 ├── docs                    <- class project requirment outline
