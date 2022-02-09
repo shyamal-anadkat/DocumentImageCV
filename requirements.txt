@@ -8,12 +8,12 @@ matplotlib
 numpy
 pandas
 scikit_learn
-torch
-torchsummary
-torchvision
 split-folders
 thundersvm
 streamlit
 imutils
 scipy
 opencv-python
+torch
+torchsummary
+torchvision
