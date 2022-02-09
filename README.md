@@ -44,6 +44,13 @@ The main script being run is: `scripts/main.py`. The Jupyter notebook is intende
 streamlit run app.py
 ```
 
+### Contributing
+
+* Run `make clean` to run linting and as well as format the code before pushing
+* `main.py` is the main script which saves the model 
+* `model.py` is the script which trains the model (`models/model.pt`)
+* `make_dataset.py` transforms the data and preps it for training 
+
 ### GitHub Framework
 
 
@@ -58,6 +65,8 @@ streamlit run app.py
     ├── data_augment.py     <- script to augment document image via OpenCV (sharpen, guassian blur etc)
     ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
     ├── model.py            <- script to train model and predict
+    ├── app.py              <- script to run the streamlit app
+    ├── clf.py              <- classifier script used by app.py for the application
     ├── main.py             <- script to run make_dataset and model.py. This will also save the model within models/.
 ├── docs                    <- class project requirment outline
 ├── models                  <- directory for trained models
