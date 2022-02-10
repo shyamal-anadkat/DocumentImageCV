@@ -5,7 +5,7 @@ from scripts.clf import predict
 # streamlit run app.py
 st.set_option("deprecation.showfileUploaderEncoding", False)
 
-st.title("Language Detection from Document Image Demo")
+st.title("Language Detection from Document Image Demo (AIPI540 CV Module)")
 st.write("")
 
 file_up = st.file_uploader("Upload an image", type="jpg")

@@ -7,8 +7,8 @@ def remove_corrupt_and_nonjpg_images(dir_path):
     """
      Removes corrupt & non jpg images from the specified dir path for raw data
     :param dir_path: path to directory with raw images
-    
-    Use: run with in "data" foldler 
+
+    Use: run with in "data" foldler
     cmd line -> python remove_corrupt.py
     """
     cntr = 0
