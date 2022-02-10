@@ -59,9 +59,7 @@ streamlit run app.py
 ├── app.py                  <- app to run project / user interface (streamlit)
 ├── scripts                 <- directory for pipeline scripts or utility scripts
     ├── make_dataset.py     <- script to transfomr data
-    ├── remove_corrupt.py   <- script to remove corrupt images from raw
     ├── data_augment.py     <- script to augment document image via OpenCV (sharpen, guassian blur etc)
-    ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
     ├── model.py            <- script to train model and predict
     ├── clf.py              <- classifier script used by app.py for the application
     ├── main.py             <- script to run make_dataset and model.py. This will also save the model within models/.
@@ -69,6 +67,8 @@ streamlit run app.py
 ├── models                  <- directory for trained models
 ├── data                    <- directory for project data
     ├── raw                 <- directory for raw & transformed data or script to download
+    ├── remove_duplicate.py <- script to remove duplicate/similar & low res. raw images
+    ├── remove_corrupt.py   <- script to remove corrupt images from raw
 ├── notebooks               <- directory to store any exploration notebooks used (see main.ipynb)
 ├── .gitignore              <- git ignore file
 ├── .pylintrc               <- lint file for testing
