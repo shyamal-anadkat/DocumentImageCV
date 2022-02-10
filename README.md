@@ -4,6 +4,7 @@ Dense Text Image Language Identification
 ========================
 #### AIPI 540 Computer Vision | Spring Semester 2022
 <br>
+
 **Team Members:** Christopher Oblak, Shyamal Anadkat, Yudong Liu
 
 **Problem definition:** Detect the language from a text based image/picture of a dense document.
