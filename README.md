@@ -42,6 +42,11 @@ The main script being run is: `scripts/main.py`. The Jupyter notebook is intende
 streamlit run app.py
 ```
 
+#### Demo Example: 
+
+<img width="600" alt="image" src=https://user-images.githubusercontent.com/12115186/153900640-baaf1469-6765-4be9-82ef-ce4424d345f4.png >
+
+
 ### Contributing
 
 * Run `make clean` to run linting and as well as format the code before pushing
